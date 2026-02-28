@@ -482,9 +482,19 @@ void drawFoundScreen(bool blink) {
 }
 
 // ══════════════════════════════════════════════
-//  TOUCH HANDLER
+//  TOUCH HANDLER (Callback-based)
 // ══════════════════════════════════════════════
 unsigned long lastTouchMs = 0;
+volatile bool touchPending = false;
+volatile int touchX = 0, touchY = 0;
+
+void touchCB(uint8_t contacts, GDTpoint_t* points) {
+  if (contacts > 0) {
+    touchX = (int)points[0].x;
+    touchY = (int)points[0].y;
+    touchPending = true;
+  }
+}
 
 void goToScan() {
   noTone(BUZZER_PIN); beepActive=false;
@@ -572,6 +582,7 @@ void setup() {
 
   display.begin();
   touch.begin();
+  touch.onDetect(touchCB);
 
   updateLayoutDimensions();
 
@@ -625,10 +636,11 @@ void loop() {
   // ── IMU ──────────────────────────────────
   updateYaw();
 
-  // ── Touch ────────────────────────────────
-  GDTpoint_t pts[5];
-  uint8_t n = touch.available(pts, 5);
-  if (n > 0) handleTouch((int)pts[0].x, (int)pts[0].y);
+  // ── Touch (callback-based) ───────────────
+  if (touchPending) {
+    handleTouch(touchX, touchY);
+    touchPending = false;
+  }
 
   // ── BLE ──────────────────────────────────
   BLEDevice dev = BLE.available();
