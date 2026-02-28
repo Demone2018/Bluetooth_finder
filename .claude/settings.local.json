@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git remote add origin https://github.com/Demone2018/Bluetooth_finder.git)",
+      "Bash(git branch -M main)",
+      "Bash(git push -u origin main)",
+      "Bash(git add -A)",
+      "Bash(git commit -m \"Add debug Serial prints for touch testing:*)"
+    ]
+  }
+}

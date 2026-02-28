@@ -493,6 +493,9 @@ void touchCB(uint8_t contacts, GDTpoint_t* points) {
     touchX = (int)points[0].x;
     touchY = (int)points[0].y;
     touchPending = true;
+    Serial.print("[TOUCH] X="); Serial.print(touchX);
+    Serial.print(" Y="); Serial.print(touchY);
+    Serial.print(" AppState="); Serial.println(appState);
   }
 }
 
@@ -547,7 +550,13 @@ void handleTouch(int tx, int ty) {
     int btnW = usePortrait ? 440 : 290;
     int btnH = 54;
 
+    Serial.print("[BUTTON CHECK] ty="); Serial.print(ty); Serial.print(" btnY="); Serial.print(btnY);
+    Serial.print(" btnY+H="); Serial.print(btnY+btnH); Serial.print(" tx="); Serial.print(tx);
+    Serial.print(" btnX="); Serial.print(btnX); Serial.print(" btnX+W="); Serial.print(btnX+btnW);
+    Serial.print(" selIdx="); Serial.println(selIdx);
+
     if (ty>=btnY && ty<btnY+btnH && tx>=btnX && tx<btnX+btnW && selIdx>=0) {
+      Serial.println("[ACTION] INIZIA RICERCA clicked!");
       targetMAC  = devList[selIdx].address;
       targetName = devList[selIdx].name;
       resetMap(); BLE.stopScan();
