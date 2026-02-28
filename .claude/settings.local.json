@@ -5,7 +5,8 @@
       "Bash(git branch -M main)",
       "Bash(git push -u origin main)",
       "Bash(git add -A)",
-      "Bash(git commit -m \"Add debug Serial prints for touch testing:*)"
+      "Bash(git commit -m \"Add debug Serial prints for touch testing:*)",
+      "Bash(git commit -m \"Add RUOTA \\(rotation\\) button for landscape/portrait toggle:*)"
     ]
   }
 }
